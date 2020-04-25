@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  scroll-behavior: smooth;
+}
+
+.brand-text {
+  font-family: 'Almonds';
+}
+
+.container-fluid {
+  padding: 3% 6%;
+}
+
+.card {
+  width: 90%;
+}
+
+/* nav-bar styling */
+
+#nav-bar {
+  grid-area: nav-bar;
+  opacity: 0.95;
+  background-color: white;
+}
+.icons {
+  width: 35px;
+  padding: 0 10px 0 5px;
+}
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -56px;
+}
+/* title styling */
+
+.heading {
+  padding: 15rem 0 16rem;
+}
+
+h1.brand-text {
+  font-size: 7rem;
+  font-weight: bold;
+
+  color: #fff;
+}
+
+#title h2 {
+  padding-top: 10px;
+  font-size: 1.5rem;
+  font-weight: lighter;
+
+  color: #fff;
+}
+
+.plant-image {
+  background-image: url(../images/darkleaves.jpg);
+  background-size: cover;
+}
