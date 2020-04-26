@@ -7,7 +7,7 @@ const _ = require("lodash");
 
 const app = express();
 
-const videoPosts = [];
+
 
 app.set('view engine', 'ejs');
 
@@ -16,22 +16,36 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
+mongoose.connect('mongodb://localhost:27017/blogDB', {useNewUrlParser: true, useUnifiedTopology: true});
+
+const postsSchema = {
+  video: String,
+  title: String,
+  content: String
+};
+
+const Post = mongoose.model("Post", postsSchema);
+
+
+///////////root route
+
 app.get("/", function(req, res){
   res.render("home");
 });
 
+//////////compose route
 app.get("/compose", function(req, res){
   res.render("compose");
 });
 
 app.post("/videoSubmitForm", function (req, res) {
-  let videoEntry = {
-    videoTitle: req.body.videoTitle,
-    videoBody: req.body.videoBody,
-    videoEmbed: req.body.videoEmbed,
-  };
+  const post = new Post ({
+    video: req.body.videoEmbed,
+    title: req.body.videoTitle,
+    content: req.body.videoContent
+  })
 
-  videoPosts.push(videoEntry);
+  post.save();
 
   res.redirect('/video');
 
@@ -40,7 +54,7 @@ app.post("/videoSubmitForm", function (req, res) {
 
 app.post("/deleteVid", function (req, res) {
 
-if (req.body.butt == 2) {
+if (req.body.butt === 2) {
   videoPosts.pop();
   res.redirect("/compose")
 }
@@ -49,8 +63,11 @@ if (req.body.butt == 2) {
 
 
 app.get("/video", function(req, res) {
-  res.render("video", {videoPosts: videoPosts});
-
+  Post.find({}, function(err, videos){
+    res.render("video", {
+      videos: videos
+    })
+  });
 });
 
 
@@ -59,8 +76,8 @@ app.get("/video", function(req, res) {
 
 
 
+const port = 5000;
 
-
-app.listen(5000, function() {
+app.listen(port, function() {
   console.log("Server started on port 5000");
 });

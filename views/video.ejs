@@ -1,23 +1,30 @@
-<%- include("partials/header"); %>
+<%- include("partials/header") %>
 
-<h1>Video Content</h1>
 
-  <% videoPosts.forEach(function(videoPost) { %>
 
-<div class="video-container">
-  <div class="video">
-    <div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item" src="<%= videoPost.videoEmbed %>" allowfullscreen></iframe>
+
+<div class="container-fluid">
+<h1 class="video-title">Featured Videos</h1>
+
+
+    <% videos.forEach(function(video) { %>
+
+  <div class="video-container">
+    <div class="video">
+      <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="<%= video.video %>" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video video-text">
+      <h1> <%= video.title %> </h1>
+      <p>
+        <%= video.content %>
+      </p>
     </div>
   </div>
-  <div class="video">
-    <h1> <%= videoPost.videoTitle %> </h1>
-    <p>
-      <%= videoPost.videoBody %>
-    </p>
-  </div>
+
+
+
+  <%  }); %>
+
 </div>
-
-
-
-<%  }); %>
