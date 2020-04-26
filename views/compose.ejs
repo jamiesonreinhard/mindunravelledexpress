@@ -1,1 +1,27 @@
 <%- include("partials/header"); %>
+
+
+<h1>Compose</h1>
+
+<h3 class="form-header" >Upload Video</h3>
+
+<form class="" action="/videoSubmitForm" method="post">
+  <div class="form-group">
+    <label class="form-label" for="exampleInputEmail1">Video Embed Code</label>
+    <input name="videoEmbed" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="exampleInputEmail1">Video Title</label>
+    <input name="videoTitle" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="exampleInputEmail1">Video Description</label>
+    <textarea class="form-control" cols="40" rows="5" aria-label="With textarea" name="videoBody"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary form-button">Submit</button>
+
+  <form action="/home2" method="post">
+    <button formaction="deleteVid" name="butt" value='2' class="btn btn-primary btn-danger form-button">Delete Previous Post</button>
+  </form>
+
+</form>

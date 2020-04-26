@@ -65,3 +65,11 @@ h1.brand-text {
 #footer .icon-text {
   color: black;
 }
+
+.video-container {
+  display: flex;
+}
+
+.video {
+  flex: 1;
+}
