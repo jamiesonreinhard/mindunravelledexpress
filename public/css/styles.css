@@ -14,6 +14,10 @@
   padding: 3% 6%;
 }
 
+.container {
+  padding: 3% 6%;
+}
+
 .card {
   width: 90%;
 }
@@ -68,8 +72,19 @@ h1.brand-text {
 
 .video-container {
   display: flex;
+  padding: 20px;
 }
 
 .video {
   flex: 1;
+  padding: 2rem;
+}
+
+.video-text p {
+  text-align: center;
+}
+
+.video-title {
+  font-family: 'Almonds';
+  font-size: 4rem;
 }
