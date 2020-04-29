@@ -80,9 +80,11 @@ app.get("/compose", function (req, res) {
   res.render("compose");
 });
 
+
 //////////VIDEO POST SECTION
 app.post("/videoSubmitForm", function (req, res) {
   const post = new Post({
+
     video: req.body.videoEmbed,
     title: req.body.videoTitle,
     content: req.body.videoContent,
@@ -101,6 +103,7 @@ app.get("/video", function (req, res) {
     }
   });
 });
+
 
 ///////VIDEO DELETE SECTION
 app.post("/deleteVid", function (req, res) {
@@ -136,6 +139,9 @@ app.post("/deleteFeaturedVid", function (req, res) {
       console.log(err);
     } else {
       res.redirect("/featuredvideo");
+
+})
+
     }
   });
 });
