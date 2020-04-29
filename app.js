@@ -38,7 +38,9 @@ app.get("/compose", function(req, res){
   res.render("compose");
 });
 
-app.post("/videoSubmitForm", function (req, res) {
+/////////video submit route
+app.route("/videoSubmitForm")
+  .post (function (req, res) {
   const post = new Post ({
     video: req.body.videoEmbed,
     title: req.body.videoTitle,
@@ -49,16 +51,18 @@ app.post("/videoSubmitForm", function (req, res) {
 
   res.redirect('/video');
 
-});
+})
 
-
-app.post("/deleteVid", function (req, res) {
-
-if (req.body.butt === 2) {
-  videoPosts.pop();
-  res.redirect("/compose")
-}
-
+  .delete(function(req, res){
+  Post.deleteOne({
+    title: req.body.deletePost
+  }, function(err){
+    if(!err){
+      res.redirect("/video")
+    } else {
+      res.send(err);
+    }
+  });
 });
 
 
