@@ -166,8 +166,12 @@ app.get("/featuredvideo", function (req, res) {
 
 //////////compose route
 app.get("/compose", function (req, res) {
-  res.render("compose");
-});
+  if(req.isAuthenticated()){
+    res.render("compose");
+  } else {
+    res.redirect("/login");
+  }
+  });
 
 
 //////////VIDEO POST SECTION
