@@ -131,3 +131,7 @@ mark {
   background-color: black;
   color: #fff;
 }
+
+.header {
+  padding: 2rem;
+}
