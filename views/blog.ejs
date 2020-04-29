@@ -1,19 +1,11 @@
-<%- include("partials/header"); %>
-
-<!-- title section -->
-
-<section id="title" class="plant-image">
-  <div class="heading">
-    <h1 class="brand-text">A Mind Unravelled</h1>
-    <h2>a safe space to have conversations about mental health.</h2>
-  </div>
-
-</section>
+<%- include("partials/header") %>
 
 
-<!-- featured blog section -->
+
+
 <div class="container-fluid">
-<h1 class="video-title">Featured Blogs</h1>
+<h1 class="video-title">Blog</h1>
+
 
     <% blogs.forEach(function(blog) { %>
 
@@ -30,15 +22,9 @@
       </p>
     </div>
   </div>
+
+
+
   <%  }); %>
+
 </div>
-
-
-
-
-
-
-
-
-<!-- footer section -->
-<%- include("partials/footer"); %>

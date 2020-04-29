@@ -1,10 +1,11 @@
-<%- include("partials/header") %>
+
+<%- include("partials/header"); %>
 
 
 
-
+<!-- featured Videos section -->
 <div class="container-fluid">
-<h1 class="video-title">Videos</h1>
+<h1 class="video-title">Featured Videos</h1>
 
 
     <% videos.forEach(function(video) { %>
@@ -18,11 +19,11 @@
     <div class="video video-text">
       <h1> <%= video.title %> </h1>
       <p>
-        <%= video.content %>
+        <%= video.content.substring(0, 700) %>
+        ... <mark>Read More.</mark>
       </p>
     </div>
   </div>
-
 
 
   <%  }); %>
