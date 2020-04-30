@@ -26,7 +26,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect('mongodb://localhost:27017/userDB', {
+mongoose.connect('mongodb://localhost:27017/blogDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -97,12 +97,16 @@ app.get("/register", function(req, res){
 });
 
 app.get("/admin", function(req, res){
-  res.render("admin");
+  if(req.isAuthenticated()){
+    res.render("admin");
+  } else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/logout", function(req, res){
   req.logout();
-  res.redirect("/");
+  res.redirect("/login");
 })
 
 app.post("/register", function(req, res) {
@@ -162,8 +166,12 @@ app.get("/featuredvideo", function (req, res) {
 
 //////////compose route
 app.get("/compose", function (req, res) {
-  res.render("compose");
-});
+  if(req.isAuthenticated()){
+    res.render("compose");
+  } else {
+    res.redirect("/login");
+  }
+  });
 
 
 //////////VIDEO POST SECTION
