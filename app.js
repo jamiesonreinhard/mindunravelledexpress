@@ -7,10 +7,11 @@ const _ = require("lodash");
 
 const app = express();
 
-app.set("view engine", "ejs");
-
+//MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.set("view engine", "ejs");
 
 mongoose.connect("mongodb://localhost:27017/blogDB", {
   useNewUrlParser: true,
@@ -27,13 +28,13 @@ const postsSchema = new mongoose.Schema({
 const Post = mongoose.model("Post", postsSchema);
 
 //THIS IS THE SCHEMA FOR THE "FEATURED" VIDEO POST
-const featuredpostsSchema = new mongoose.Schema({
+const featuredvidsSchema = new mongoose.Schema({
   video: String,
   title: String,
   content: String,
 });
 
-const Featuredpost = mongoose.model("Featuredpost", featuredpostsSchema);
+const Featuredvid = mongoose.model("Featuredvid", featuredvidsSchema);
 
 //THIS IS THE SCHEMA FOR THE "REGULAR" BLOG POST
 const blogsSchema = new mongoose.Schema({
@@ -59,18 +60,13 @@ app.get("/", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("home", { blogs: blogs });
-    }
-  });
-});
-
-////////GET FEATURED VIDEO PAGE SECTION
-app.get("/featuredvideo", function (req, res) {
-  Featuredpost.find({}, function (err, videos) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("featuredvideo", { videos: videos });
+      Featuredvid.find({}, function (err, videos) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.render("home", { videos: videos, blogs: blogs });
+        }
+      });
     }
   });
 });
@@ -80,62 +76,13 @@ app.get("/compose", function (req, res) {
   res.render("compose");
 });
 
-//////////VIDEO POST SECTION
-app.post("/videoSubmitForm", function (req, res) {
-  const post = new Post({
-    video: req.body.videoEmbed,
-    title: req.body.videoTitle,
-    content: req.body.videoContent,
-  });
-  post.save();
-  res.redirect("/video");
-});
-
-////////GET VIDEO PAGE SECTION
-app.get("/video", function (req, res) {
-  Post.find({}, function (err, videos) {
+////////GET BLOG PAGE
+app.get("/blog", function (req, res) {
+  Blog.find({}, function (err, blogs) {
     if (err) {
       console.log(err);
     } else {
-      res.render("video", { videos: videos });
-    }
-  });
-});
-
-///////VIDEO DELETE SECTION
-app.post("/deleteVid", function (req, res) {
-  const deleted = req.body.deleteTitle;
-
-  Post.deleteOne({ title: deleted }, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/video");
-    }
-  });
-});
-
-/////////FEATURED VIDEO POST SECTION
-app.post("/featuredVideoSubmitForm", function (req, res) {
-  const featuredpost = new Featuredpost({
-    video: req.body.featuredVideoEmbed,
-    title: req.body.featuredVideoTitle,
-    content: req.body.featuredVideoContent,
-  });
-
-  featuredpost.save();
-  res.redirect("/featuredvideo");
-});
-
-//////////FEATURED VIDEO DELETE SECTION
-app.post("/deleteFeaturedVid", function (req, res) {
-  const deletedFeature = req.body.deleteFeaturedTitle;
-
-  Featuredpost.deleteOne({ title: deletedFeature }, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/featuredvideo");
+      res.render("blog", { blogs: blogs });
     }
   });
 });
@@ -144,26 +91,16 @@ app.post("/deleteFeaturedVid", function (req, res) {
 app.post("/blogsSubmitForm", function (req, res) {
   const blog = new Blog({
     image: req.body.blogImage,
-    title: req.body.blogTitle,
+    title: _.startCase(req.body.blogTitle),
     content: req.body.blogContent,
   });
   blog.save();
   res.redirect("/blog");
 });
 
-// app.post("/videoSubmitForm", function (req, res) {
-//   const post = new Post({
-//     video: req.body.videoEmbed,
-//     title: req.body.videoTitle,
-//     content: req.body.videoContent,
-//   });
-//   post.save();
-//   res.redirect("/video");
-// });
-
 ///////BLOG DELETE SECTION
 app.post("/deleteBlog", function (req, res) {
-  const deletedBlog = req.body.deleteBlogTitle;
+  const deletedBlog = _.startCase(req.body.deleteBlogTitle);
 
   Blog.deleteOne({ title: deletedBlog }, function (err) {
     if (err) {
@@ -178,7 +115,7 @@ app.post("/deleteBlog", function (req, res) {
 app.post("/featuredBlogsSubmitForm", function (req, res) {
   const featuredblog = new Featuredblog({
     image: req.body.featuredBlogImage,
-    title: req.body.featuredBlogTitle,
+    title: _.startCase(req.body.featuredBlogTitle),
     content: req.body.featuredBlogContent,
   });
 
@@ -189,7 +126,7 @@ app.post("/featuredBlogsSubmitForm", function (req, res) {
 
 //////////FEATURED BLOG DELETE SECTION
 app.post("/deleteFeaturedBlog", function (req, res) {
-  const deletedFeaturedBlog = req.body.deleteFeaturedBlogTitle;
+  const deletedFeaturedBlog = _.startCase(req.body.deleteFeaturedBlogTitle);
 
   Featuredblog.deleteOne({ title: deletedFeaturedBlog }, function (err) {
     if (err) {
@@ -200,38 +137,70 @@ app.post("/deleteFeaturedBlog", function (req, res) {
   });
 });
 
-////////GET BLOG PAGE
-app.get("/blog", function (req, res) {
-  Blog.find({}, function (err, blogs) {
+////////GET VIDEO PAGE SECTION
+app.get("/video", function (req, res) {
+  Post.find({}, function (err, videos) {
     if (err) {
       console.log(err);
     } else {
-      res.render("blog", { blogs: blogs });
+      res.render("video", { videos: videos });
     }
   });
 });
 
-///////////GET FEATURED BLOG PAGE SECTION
-// app.get("/home", function (req, res) {
-//   Featuredblog.find({}, function (err, blogs) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.render("home", { blogs: blogs });
-//     }
-//   });
-// });
+//////////VIDEO POST SECTION
+app.post("/videoSubmitForm", function (req, res) {
+  const post = new Post({
+    video: req.body.videoEmbed,
+    title: _.startCase(req.body.videoTitle),
+    content: req.body.videoContent,
+  });
+  post.save();
+  res.redirect("/video");
+});
 
-////////GET FEATURED BLOG PAGE SECTION
-// app.get("/", function (req, res) {
-//   Featuredblog.find({}, function (err, blogs) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.render("blog", { blogs: blogs });
-//     }
-//   });
-// });
+///////VIDEO DELETE SECTION
+app.post("/deleteVid", function (req, res) {
+  const deleted = _.startCase(req.body.deleteTitle);
+
+  Post.deleteOne({ title: deleted }, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/video");
+    }
+  });
+});
+
+/////////FEATURED VIDEO POST SECTION
+app.post("/featuredVideoSubmitForm", function (req, res) {
+  const featuredvid = new Featuredvid({
+    video: req.body.featuredVideoEmbed,
+    title: _.startCase(req.body.featuredVideoTitle),
+    content: req.body.featuredVideoContent,
+  });
+
+  featuredvid.save(function (err) {
+    if (!err) {
+      res.redirect("/");
+    } else {
+      console.log(err);
+    }
+  });
+});
+
+//////////FEATURED VIDEO DELETE SECTION
+app.post("/deleteFeaturedVid", function (req, res) {
+  const deletedFeature = _.startCase(req.body.deleteFeaturedTitle);
+
+  Featuredvid.deleteOne({ title: deletedFeature }, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/");
+    }
+  });
+});
 
 /////////LISTENING TO PORT
 const port = 5000;

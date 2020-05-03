@@ -34,6 +34,32 @@
 </div>
 
 
+<!-- featured Videos section -->
+<div class="container-fluid">
+<h1 class="video-title">Featured Videos</h1>
+
+
+    <% videos.forEach(function(video) { %>
+
+  <div class="video-container">
+    <div class="video">
+      <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="<%= video.video %>" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video video-text">
+      <h1> <%= video.title %> </h1>
+      <p>
+        <%= video.content.substring(0, 700) %>
+        ... <mark>Read More.</mark>
+      </p>
+    </div>
+  </div>
+
+
+  <%  }); %>
+
+</div>
 
 
 
